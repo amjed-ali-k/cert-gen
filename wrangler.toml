@@ -6,19 +6,9 @@ compatibility_flags = [ "nodejs_compat" ]
 # [vars]
 # MY_VAR = "my-variable"
 
-# [[kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
-
 [[d1_databases]]
 binding = "DB"
 database_name = "gptc-certificates-db"
-database_id = ""
+database_id = "2bb0e27f-13df-4fae-8ab3-12b972756728"
 migrations_dir = "drizzle"
 
-# [ai]
-# binding = "AI"

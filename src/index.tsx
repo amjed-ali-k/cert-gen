@@ -6,6 +6,10 @@ import { CertificateViewer } from "./compontents/certificateViewer";
 import { generateSVGFromElement } from "./lib";
 import { SampleCert } from "./compontents/sample-cert";
 import { createDb } from "./db";
+import { z } from "zod";
+import { jwtDecode, zodValidator } from "./lib/validators";
+import { certificatesTable } from "./db/schema";
+import { v7 as uuid } from "uuid";
 
 type Bindings = {
   DB: D1Database;
@@ -14,6 +18,26 @@ type Bindings = {
 type Variables = {
   db: ReturnType<typeof createDb>;
 };
+const inputSchema = z.object({
+  data: z.string().min(10),
+});
+const newCertSchema = z.object({
+  key: z.string(),
+  reciptent: z.string(),
+  reciptentDescription: z.string(),
+  issuer: z.string(),
+  issuerDescription: z.string(),
+  issuedFor: z.string(),
+  issuedForDescription: z.string(),
+  certificateElements: z.object({
+    text: z.string(),
+    styles: z.object({}),
+  }),
+  certificateBackground: z.string(),
+  height: z.number(),
+  width: z.number(),
+  fonts: z.array(z.string()),
+});
 
 const app = new Hono<{
   Bindings: Bindings;
@@ -44,6 +68,22 @@ const app = new Hono<{
         "Content-Type": "image/svg+xml; charset=utf-8",
       },
     });
+  })
+  .put("/generate-cert", zodValidator(inputSchema), async (c) => {
+    const { data } = c.req.valid("json");
+
+    const values = jwtDecode(data, "my-super-secret-key");
+    if (!values) c.json({ message: "Invalid token" }, 400);
+    const cleanData = newCertSchema.parse(values);
+    if (!cleanData) return c.json({ message: "Validation failed" }, 400);
+
+    const db = c.get("db");
+    const cert = await db
+      .insert(certificatesTable)
+      .values({ ...cleanData, id: uuid() })
+      .returning()
+      .get();
+    return c.json({ message: "Certificate generated", id: cert.id }, 200);
   });
 
 export default app;
