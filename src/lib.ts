@@ -1,13 +1,10 @@
-import { JSX, JSXNode, ReactNode } from "hono/jsx";
+import { ReactNode } from "hono/jsx";
 import satori from "satori";
 import { testFunc } from "./compontents/test";
 import PDFDocument, { font } from "pdfkit";
 import SVGtoPDF from "svg-to-pdfkit";
 import BlobStream from "blob-stream";
 import { sift, unique } from "radash";
-// import borelFont from '../public/static/borel.ttf'
-// import robotoFont from '../public/static/roboto.ttf'
-// import borelFontRaw from "./geist.otf?raw";
 
 const savedfonts = [
   {

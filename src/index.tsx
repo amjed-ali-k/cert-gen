@@ -86,12 +86,11 @@ const app = new Hono<{
       .where(eq(certificatesTable.id, certId))
       .get();
     if (!cert) return c.text("Certificate not found", 404);
-    console.log(cert);
     const v = await generateSVGFromElement(
       (
         <SampleCert
-          height={424}
-          width={600}
+          height={cert.height}
+          width={cert.width}
           image={cert.certificateBackground}
           items={JSON.parse(cert.certificateElements) as CertificateElements}
         />
