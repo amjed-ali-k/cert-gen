@@ -8,7 +8,7 @@ import { SampleCert } from "./compontents/sample-cert";
 import { createDb } from "./db";
 import { z } from "zod";
 import { jwtDecode, zodValidator } from "./lib/validators";
-import { certificatesTable } from "./db/schema";
+import { CertificateElements, certificatesTable } from "./db/schema";
 import { v7 as uuid } from "uuid";
 import { eq } from "drizzle-orm";
 import { format } from "date-fns/format";
@@ -52,7 +52,7 @@ const app = new Hono<{
     c.set("db", createDb(c.env.DB));
     await next();
   })
-  .get("/:certId", async (c) => {
+  .get("/cert/:certId", async (c) => {
     const certId = c.req.param("certId");
     const db = c.get("db");
     const cert = await db
@@ -61,11 +61,10 @@ const app = new Hono<{
       .where(eq(certificatesTable.id, certId))
       .get();
     if (!cert) return c.text("Certificate not found", 404);
-
     return c.render(
       <Layout>
         <div class="grid grid-cols-4 flex-1 !h-full">
-          <CertificateViewer />
+          <CertificateViewer id={cert.id} />
           <Info
             date={format(new Date(cert.issuedAt), "dd-MM-yyyy p")}
             id={cert.id}
@@ -78,7 +77,7 @@ const app = new Hono<{
       </Layout>
     );
   })
-  .get("/:certId/image.svg", async (c) => {
+  .get("/cert/:certId/image.svg", async (c) => {
     const certId = c.req.param("certId");
     const db = c.get("db");
     const cert = await db
@@ -94,10 +93,12 @@ const app = new Hono<{
           height={424}
           width={600}
           image={cert.certificateBackground}
-          items={cert.certificateElements}
+          items={JSON.parse(cert.certificateElements) as CertificateElements}
         />
       ) as any,
-      cert.fonts || ["Roboto Condensed"]
+      cert.fonts ? (JSON.parse(cert.fonts) as string[]) : ["Roboto Condensed"],
+      cert.width,
+      cert.height
     );
     c.res.headers.set("Content-Type", "image/svg+xml");
     return new Response(v, {
@@ -117,7 +118,12 @@ const app = new Hono<{
     const db = c.get("db");
     const cert = await db
       .insert(certificatesTable)
-      .values({ ...cleanData, id: uuid() })
+      .values({
+        ...cleanData,
+        id: uuid(),
+        fonts: JSON.stringify(cleanData.fonts),
+        certificateElements: JSON.stringify(cleanData.certificateElements),
+      })
       .returning()
       .get();
     return c.json({ message: "Certificate generated", id: cert.id }, 200);
@@ -136,7 +142,7 @@ const app = new Hono<{
           issuedAt: Date.now(),
           issuedFor: "Outstanding Performance",
           issuedForDescription: "-",
-          certificateElements: [
+          certificateElements: JSON.stringify([
             {
               text: "Fathima Nusrath Jahan",
               styles: {
@@ -145,12 +151,12 @@ const app = new Hono<{
                 top: 200,
               },
             },
-          ],
+          ]),
           certificateBackground:
             "https://i.ibb.co/1Qbs2NM/certificate-sample.png",
           height: 424,
           width: 600,
-          fonts: ["Roboto Condensed"],
+          fonts: JSON.stringify(["Roboto Condensed"]),
         })
         .returning()
         .get()
@@ -158,3 +164,5 @@ const app = new Hono<{
   });
 
 export default app;
+
+// 0193d9fc-20a5-757b-a091-390364ecb2f6

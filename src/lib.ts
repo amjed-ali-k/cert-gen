@@ -29,11 +29,12 @@ const savedfonts = [
 
 export const generateSVGFromElement = async (
   elm: ReactNode,
-  fonts: string[]
+  fonts: string[],
+  width: number,
+  height: number
 ) => {
-
   const usedFonts = sift(
-    unique([...fonts, 'Roboto Condensed']).map((f) => {
+    unique([...fonts, "Roboto Condensed"]).map((f) => {
       return savedfonts.find((font) => font.font === f);
     })
   );
@@ -48,8 +49,8 @@ export const generateSVGFromElement = async (
   );
 
   const svg = await satori(elm, {
-    height: 841.89,
-    width: 595.28,
+    height,
+    width,
     fonts: fontData,
   });
   return svg;
@@ -68,14 +69,17 @@ export const generatePdfFromSVG = (
 
 export const genratePdfFromElement = async (
   elm: ReactNode,
-  callback: (e: string) => void
+  callback: (e: string) => void,
+  height: number,
+  width: number
 ) => {
-  const svg = await generateSVGFromElement(elm, [
-    "Pacifico",
-    "Roboto Condensed",
-    "Borel",
-  ]);
-  await generatePdfFromSVG(svg, 595.28, 841.89, callback);
+  const svg = await generateSVGFromElement(
+    elm,
+    ["Pacifico", "Roboto Condensed", "Borel"],
+    width,
+    height
+  );
+  await generatePdfFromSVG(svg, width, height, callback);
 };
 
 export const callTestFunc = () => testFunc();

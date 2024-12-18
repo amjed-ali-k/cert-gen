@@ -17,8 +17,8 @@ export const SampleCert = ({
   return (
     <div
       style={{
-        height: { height },
-        width: { width },
+        height: height,
+        width: width,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -30,18 +30,20 @@ export const SampleCert = ({
         fontFamily: "Roboto Condensed",
       }}
     >
-  {image &&    <img
-        style={{
-          position: "absolute",
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: { height },
-          width: { width },
-        }}
-        src={image}
-      />}
+      {image && (
+        <img
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: height,
+            width: width,
+          }}
+          src={image}
+        />
+      )}
       {items.map((item, i) => (
         <p key={item.text + i} style={item.styles}>
           {item.text}

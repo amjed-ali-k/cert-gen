@@ -2,7 +2,7 @@
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { CSSProperties } from "hono/jsx";
 
-type CertificateElements = {
+export type CertificateElements = {
     text: string;
     styles: CSSProperties
 }[];
@@ -16,9 +16,9 @@ export const certificatesTable = sqliteTable("certificates_table", {
   issuedAt: int().notNull().default(Date.now()),
   issuedFor: text(),
   issuedForDescription: text(),
-  certificateElements: text().notNull().$type<CertificateElements>(),
+  certificateElements: text().notNull(),
   certificateBackground: text(),
   height: int().notNull().default(0),
   width: int().notNull().default(0),
-  fonts: text().default("['Roboto Condensed']").$type<string[]>(),
+  fonts: text().default("['Roboto Condensed']"),
 });
