@@ -1,7 +1,6 @@
 import { ReactNode } from "hono/jsx";
 import satori from "satori";
-import { testFunc } from "./compontents/test";
-import PDFDocument, { font } from "pdfkit";
+import PDFDocument from "pdfkit";
 import SVGtoPDF from "svg-to-pdfkit";
 import BlobStream from "blob-stream";
 import { sift, unique } from "radash";
@@ -79,7 +78,6 @@ export const genratePdfFromElement = async (
   await generatePdfFromSVG(svg, width, height, callback);
 };
 
-export const callTestFunc = () => testFunc();
 
 const generatePdf = async (
   svg: any,
