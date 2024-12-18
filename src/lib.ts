@@ -32,13 +32,11 @@ export const generateSVGFromElement = async (
   fonts: string[]
 ) => {
 
-  console.log({fonts})
   const usedFonts = sift(
     unique([...fonts, 'Roboto Condensed']).map((f) => {
       return savedfonts.find((font) => font.font === f);
     })
   );
-  console.log({usedFonts})
 
   const fontData = await Promise.all(
     usedFonts.map(async (f) => ({
