@@ -1,10 +1,24 @@
-export const SampleCert = () => {
+import { CSSProperties } from "hono/jsx";
+
+export const SampleCert = ({
+  height,
+  width,
+  image,
+  items,
+}: {
+  height: number;
+  width: number;
+  image?: string | null;
+  items: {
+    text: string;
+    styles: CSSProperties;
+  }[];
+}) => {
   return (
-    
     <div
       style={{
-        height: "424px",
-        width: "600px",
+        height: { height },
+        width: { width },
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -13,55 +27,26 @@ export const SampleCert = () => {
         fontSize: 32,
         fontWeight: 600,
         position: "relative",
-        fontFamily:'Roboto Condensed'
+        fontFamily: "Roboto Condensed",
       }}
     >
-      <img
+  {image &&    <img
         style={{
           position: "absolute",
           top: 0,
           bottom: 0,
           left: 0,
           right: 0,
-         
-          height: "424px",
-          width: "600px",
+          height: { height },
+          width: { width },
         }}
-        src="https://i.ibb.co/1Qbs2NM/certificate-sample.png"
-      />
-        <p
-          style={{
-            position: "absolute",
-            fontSize: 32,
-            top: 200,
-            fontFamily: 'Playwrite ES Deco Guides',
-          }}
-        >
-          Amjed Ali K
+        src={image}
+      />}
+      {items.map((item, i) => (
+        <p key={item.text + i} style={item.styles}>
+          {item.text}
         </p>
-
-        <p
-          style={{
-            position: "absolute",
-            fontSize: 12,
-            top: 320,
-            left: 190,
-          }}
-        >
-          24-July-2024
-        </p>
-
-        <p
-          style={{
-            position: "absolute",
-            fontSize: 12,
-            top: 320,
-
-            left: 360,
-          }}
-        >
-          sd/-
-        </p>
+      ))}
     </div>
   );
 };

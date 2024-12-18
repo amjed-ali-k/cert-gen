@@ -10,6 +10,8 @@ import { z } from "zod";
 import { jwtDecode, zodValidator } from "./lib/validators";
 import { certificatesTable } from "./db/schema";
 import { v7 as uuid } from "uuid";
+import { eq } from "drizzle-orm";
+import { format } from "date-fns/format";
 
 type Bindings = {
   DB: D1Database;
@@ -29,10 +31,12 @@ const newCertSchema = z.object({
   issuerDescription: z.string(),
   issuedFor: z.string(),
   issuedForDescription: z.string(),
-  certificateElements: z.object({
-    text: z.string(),
-    styles: z.object({}),
-  }),
+  certificateElements: z.array(
+    z.object({
+      text: z.string(),
+      styles: z.object({}),
+    })
+  ),
   certificateBackground: z.string(),
   height: z.number(),
   width: z.number(),
@@ -48,20 +52,53 @@ const app = new Hono<{
     c.set("db", createDb(c.env.DB));
     await next();
   })
-  .get("/", (c) => {
+  .get("/:certId", async (c) => {
+    const certId = c.req.param("certId");
+    const db = c.get("db");
+    const cert = await db
+      .select()
+      .from(certificatesTable)
+      .where(eq(certificatesTable.id, certId))
+      .get();
+    if (!cert) return c.text("Certificate not found", 404);
+
     return c.render(
       <Layout>
         <div class="grid grid-cols-4 flex-1 !h-full">
           <CertificateViewer />
-          <Info />
+          <Info
+            date={format(new Date(cert.issuedAt), "dd-MM-yyyy p")}
+            id={cert.id}
+            issuer={cert.issuer}
+            issuerDescription={cert.issuerDescription}
+            reciptent={cert.reciptent}
+            reciptentDescription={cert.reciptentDescription}
+          />
         </div>
       </Layout>
     );
   })
-  .get("/image.svg", async (c) => {
-    const v = await generateSVGFromElement((<SampleCert />) as any, [
-      "Pacifico",
-    ]);
+  .get("/:certId/image.svg", async (c) => {
+    const certId = c.req.param("certId");
+    const db = c.get("db");
+    const cert = await db
+      .select()
+      .from(certificatesTable)
+      .where(eq(certificatesTable.id, certId))
+      .get();
+    if (!cert) return c.text("Certificate not found", 404);
+    console.log(cert);
+    const v = await generateSVGFromElement(
+      (
+        <SampleCert
+          height={424}
+          width={600}
+          image={cert.certificateBackground}
+          items={cert.certificateElements}
+        />
+      ) as any,
+      cert.fonts || ["Roboto Condensed"]
+    );
     c.res.headers.set("Content-Type", "image/svg+xml");
     return new Response(v, {
       headers: {
@@ -84,6 +121,40 @@ const app = new Hono<{
       .returning()
       .get();
     return c.json({ message: "Certificate generated", id: cert.id }, 200);
+  })
+  .get("/new", async (c) => {
+    const db = c.get("db");
+    return c.json(
+      await db
+        .insert(certificatesTable)
+        .values({
+          id: uuid(),
+          reciptent: "Fathima Nusrath Jahan",
+          reciptentDescription: "Electronics Engineering",
+          issuer: "Jane Doe",
+          issuerDescription: "Sports counciler",
+          issuedAt: Date.now(),
+          issuedFor: "Outstanding Performance",
+          issuedForDescription: "-",
+          certificateElements: [
+            {
+              text: "Fathima Nusrath Jahan",
+              styles: {
+                position: "absolute",
+                fontSize: 32,
+                top: 200,
+              },
+            },
+          ],
+          certificateBackground:
+            "https://i.ibb.co/1Qbs2NM/certificate-sample.png",
+          height: 424,
+          width: 600,
+          fonts: ["Roboto Condensed"],
+        })
+        .returning()
+        .get()
+    );
   });
 
 export default app;

@@ -1,10 +1,11 @@
 
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { CSSProperties } from "hono/jsx";
 
 type CertificateElements = {
     text: string;
-    styles: Object
-};
+    styles: CSSProperties
+}[];
 
 export const certificatesTable = sqliteTable("certificates_table", {
   id: text().primaryKey(),

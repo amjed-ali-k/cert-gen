@@ -1,6 +1,6 @@
 import { FC } from "hono/jsx";
 
-export const Layout: FC = ({ children }) => {
+export const Layout: FC = ({ children, reciptent, issuedFor }) => {
   return (
     <>
       <head>
@@ -8,11 +8,11 @@ export const Layout: FC = ({ children }) => {
 
         <meta
           name="description"
-          content='My course completion certificate for "Make WordPress Hosting Easy with Plesk on Hetzner Cloud"'
+          content={`Certificate issued to ${reciptent} for ${issuedFor}`}
         />
         <meta
           name="title"
-          content="Online Courses - Learn Anything, On Your Schedule | Udemy"
+          content={`Certificate of ${reciptent} | GPTC Perinthalmanna`}
         />
         <meta name="medium" content="mult" />
         <meta
@@ -31,7 +31,7 @@ export const Layout: FC = ({ children }) => {
         />
         <meta
           property="og:description"
-          content='My course completion certificate for "Make WordPress Hosting Easy with Plesk on Hetzner Cloud"'
+          content={`Certificate issued to ${reciptent} for ${issuedFor}`}
         />
         <meta
           property="og:image"
@@ -42,12 +42,12 @@ export const Layout: FC = ({ children }) => {
           content="https://udemy-certificate.s3.amazonaws.com/image/UC-3aa9d27c-d46a-4fac-9780-745a1265f19e.jpg"
         />
         <meta property="og:type" content="video_lecture" />
-        <meta property="og:site_name" content="Udemy" />
+        <meta property="og:site_name" content="GPTC Perinthalmanna" />
         <meta property="og:locale" content="en_US" />
-        <meta name="twitter:domain" content="www.udemy.com" />
+        <meta name="twitter:domain" content="www.gptcperinthalmanna.in" />
         <meta
           name="twitter:title"
-          content="Udemy Course Completion Certificate"
+          content={`Certificate of ${reciptent} | GPTC Perinthalmanna`}
         />
         <meta
           name="twitter:url"
@@ -55,13 +55,13 @@ export const Layout: FC = ({ children }) => {
         />
         <meta
           name="twitter:description"
-          content='My course completion certificate for "Make WordPress Hosting Easy with Plesk on Hetzner Cloud"'
+          content={`Certificate issued to ${reciptent} for ${issuedFor}`}
         />
         <meta
           name="twitter:image"
           content="https://udemy-certificate.s3.amazonaws.com/image/UC-3aa9d27c-d46a-4fac-9780-745a1265f19e.jpg"
         />
-        <meta name="twitter:site" content="@udemy" />
+        <meta name="twitter:site" content="@gptcperinthalmanna" />
         {/* 
         <link
           rel="apple-touch-icon"
