@@ -24,7 +24,7 @@ const inputSchema = z.object({
   data: z.string().min(10),
 });
 const newCertSchema = z.object({
-  key: z.string(),
+  id: z.string().uuid().optional(),
   reciptent: z.string(),
   reciptentDescription: z.string(),
   issuer: z.string(),
@@ -37,10 +37,10 @@ const newCertSchema = z.object({
       styles: z.object({}),
     })
   ),
-  certificateBackground: z.string(),
   height: z.number(),
   width: z.number(),
   fonts: z.array(z.string()),
+  certificateBackground: z.string(),
 });
 
 const app = new Hono<{
@@ -108,7 +108,6 @@ const app = new Hono<{
   })
   .put("/generate-cert", zodValidator(inputSchema), async (c) => {
     const { data } = c.req.valid("json");
-
     const values = jwtDecode(data, "my-super-secret-key");
     if (!values) c.json({ message: "Invalid token" }, 400);
     const cleanData = newCertSchema.parse(values);
@@ -119,7 +118,8 @@ const app = new Hono<{
       .insert(certificatesTable)
       .values({
         ...cleanData,
-        id: uuid(),
+        id: cleanData.id ?? uuid(),
+        issuedAt: Date.now(),
         fonts: JSON.stringify(cleanData.fonts),
         certificateElements: JSON.stringify(cleanData.certificateElements),
       })

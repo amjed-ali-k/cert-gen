@@ -62,6 +62,8 @@ export const Layout: FC = ({ children, reciptent, issuedFor }) => {
           content="https://udemy-certificate.s3.amazonaws.com/image/UC-3aa9d27c-d46a-4fac-9780-745a1265f19e.jpg"
         />
         <meta name="twitter:site" content="@gptcperinthalmanna" />
+
+
         {/* 
         <link
           rel="apple-touch-icon"
@@ -88,6 +90,7 @@ export const Layout: FC = ({ children, reciptent, issuedFor }) => {
 
         <meta name="theme-color" content="#ffffff" />
         <link href="/static/style.css" rel="stylesheet" />
+        <script src="/static/script.js" />
       </head>
       <body>
         <div class="min-h-dvh h-full flex flex-col text-slate-800">

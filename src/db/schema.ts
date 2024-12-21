@@ -13,7 +13,7 @@ export const certificatesTable = sqliteTable("certificates_table", {
   reciptentDescription: text().notNull().default(""),
   issuer: text().notNull(),
   issuerDescription: text().notNull().default(""),
-  issuedAt: int().notNull().default(Date.now()),
+  issuedAt: int().notNull(),
   issuedFor: text(),
   issuedForDescription: text(),
   certificateElements: text().notNull(),
