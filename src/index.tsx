@@ -34,7 +34,7 @@ const newCertSchema = z.object({
   certificateElements: z.array(
     z.object({
       text: z.string(),
-      styles: z.object({}),
+      styles: z.object({}).passthrough(),
     })
   ),
   height: z.number(),
@@ -112,7 +112,6 @@ const app = new Hono<{
     if (!values) c.json({ message: "Invalid token" }, 400);
     const cleanData = newCertSchema.parse(values);
     if (!cleanData) return c.json({ message: "Validation failed" }, 400);
-
     const db = c.get("db");
     const cert = await db
       .insert(certificatesTable)
@@ -125,7 +124,9 @@ const app = new Hono<{
       })
       .returning()
       .get();
-      console.log(`New certificate generated! ID:${cert.id}, Issued for ${cert.issuedFor}`)
+    console.log(
+      `New certificate generated! ID:${cert.id}, Issued for ${cert.issuedFor}`
+    );
     return c.json({ message: "Certificate generated", id: cert.id }, 200);
   })
   .get("/new", async (c) => {
@@ -164,5 +165,3 @@ const app = new Hono<{
   });
 
 export default app;
-
-// 0193d9fc-20a5-757b-a091-390364ecb2f6
