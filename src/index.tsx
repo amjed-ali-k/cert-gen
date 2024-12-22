@@ -16,7 +16,6 @@ import { format } from "date-fns/format";
 type Bindings = {
   DB: D1Database;
   CERT_KEY: string;
-
 };
 
 type Variables = {
@@ -81,6 +80,7 @@ const app = new Hono<{
   })
   .get("/cert/:certId/image.svg", async (c) => {
     const certId = c.req.param("certId");
+    const bg = c.req.query("bg") === "false" ? false : true;
     const db = c.get("db");
     const cert = await db
       .select()
@@ -93,7 +93,7 @@ const app = new Hono<{
         <SampleCert
           height={cert.height}
           width={cert.width}
-          image={cert.certificateBackground}
+          image={bg ? cert.certificateBackground : undefined}
           items={JSON.parse(cert.certificateElements) as CertificateElements}
         />
       ) as any,
@@ -111,7 +111,7 @@ const app = new Hono<{
   .put("/generate-cert", zodValidator(inputSchema), async (c) => {
     const { data } = c.req.valid("json");
 
-    const key = c.env.CERT_KEY
+    const key = c.env.CERT_KEY;
     const values = jwtDecode(data, key ?? "my-super-secret-key");
     if (!values) c.json({ message: "Invalid token" }, 400);
     const cleanData = newCertSchema.parse(values);
