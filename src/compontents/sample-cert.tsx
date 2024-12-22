@@ -41,6 +41,8 @@ export const SampleCert = ({
             height: height,
             width: width,
           }}
+          height={height}
+          width={width}
           src={image}
         />
       )}

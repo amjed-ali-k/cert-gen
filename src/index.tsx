@@ -125,6 +125,7 @@ const app = new Hono<{
       })
       .returning()
       .get();
+      console.log(`New certificate generated! ID:${cert.id}, Issued for ${cert.issuedFor}`)
     return c.json({ message: "Certificate generated", id: cert.id }, 200);
   })
   .get("/new", async (c) => {
