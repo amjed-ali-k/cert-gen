@@ -15,6 +15,8 @@ import { format } from "date-fns/format";
 
 type Bindings = {
   DB: D1Database;
+  CERT_KEY: string;
+
 };
 
 type Variables = {
@@ -108,7 +110,9 @@ const app = new Hono<{
   })
   .put("/generate-cert", zodValidator(inputSchema), async (c) => {
     const { data } = c.req.valid("json");
-    const values = jwtDecode(data, "my-super-secret-key");
+
+    const key = c.env.CERT_KEY
+    const values = jwtDecode(data, key ?? "my-super-secret-key");
     if (!values) c.json({ message: "Invalid token" }, 400);
     const cleanData = newCertSchema.parse(values);
     if (!cleanData) return c.json({ message: "Validation failed" }, 400);
