@@ -21,6 +21,16 @@ const savedfonts = [
     font: "Borel",
     weight: 400 as const,
   },
+  {
+    url: "https://fonts.gstatic.com/s/grandhotel/v19/7Au7p_IgjDKdCRWuR1azplQKGFk.ttf",
+    font: "Grand Hotel",
+    weight: 400 as const,
+  },
+  {
+    url: "https://fonts.gstatic.com/s/lora/v35/0QI6MX1D_JOuGQbT0gvTJPa787z5vBJBkqg.ttf",
+    font: "Lora:bold",
+    weight: 700 as const,
+  },
 ];
 
 export const generateSVGFromElement = async (
