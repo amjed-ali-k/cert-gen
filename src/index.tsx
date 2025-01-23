@@ -12,6 +12,7 @@ import { CertificateElements, certificatesTable } from "./db/schema";
 import { v7 as uuid } from "uuid";
 import { eq } from "drizzle-orm";
 import { format } from "date-fns/format";
+import { cors } from 'hono/cors'
 
 type Bindings = {
   DB: D1Database;
@@ -28,8 +29,8 @@ const newCertSchema = z.object({
   id: z.string().uuid().optional(),
   reciptent: z.string(),
   reciptentDescription: z.string(),
-  issuer: z.string(),
-  issuerDescription: z.string(),
+  issuer: z.string().optional(),
+  issuerDescription: z.string().optional(),
   issuedFor: z.string(),
   issuedForDescription: z.string(),
   certificateElements: z.array(
@@ -49,6 +50,7 @@ const app = new Hono<{
   Variables: Variables;
 }>()
   .use(renderer)
+  .use(cors())
   .use("*", async (c, next) => {
     c.set("db", createDb(c.env.DB));
     await next();

@@ -10,8 +10,8 @@ export const Info = ({
   date: string;
   reciptent: string;
   reciptentDescription: string;
-  issuer: string;
-  issuerDescription: string;
+  issuer?: string | null;
+  issuerDescription?: string | null;
 }) => {
   return (
     <div class="p-4 border-l h-full">
@@ -22,10 +22,16 @@ export const Info = ({
           <p>Issued Date: {date}</p>
         </div>
         <div class="mt-3">
-          <button id="downloadButton" className="px-4 mr-2 py-2 rounded-md border border-black bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200">
+          <button
+            id="downloadButton"
+            className="px-4 mr-2 py-2 rounded-md border border-black bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200"
+          >
             Download
           </button>
-          <button id="copyButton" className="px-4 py-2 rounded-md border border-black bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200">
+          <button
+            id="copyButton"
+            className="px-4 py-2 rounded-md border border-black bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200"
+          >
             Copy link
           </button>
         </div>
@@ -37,13 +43,15 @@ export const Info = ({
           <p>{reciptentDescription}</p>
         </div>
       </div>
-      <div>
-        <h4 class="text-lg font-bold mt-6">Issued by</h4>
+      {issuer && (
         <div>
-          <p>{issuer}</p>
-          <p>{issuerDescription}</p>
+          <h4 class="text-lg font-bold mt-6">Issued by</h4>
+          <div>
+            <p>{issuer}</p>
+            <p>{issuerDescription}</p>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
