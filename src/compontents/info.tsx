@@ -22,12 +22,14 @@ export const Info = ({
           <p>Issued Date: {date}</p>
         </div>
         <div class="mt-3">
-          <button
+          <a
+            href={`/cert/${id}/image.svg`}
+            target={"_blank"}
             id="downloadButton"
             className="px-4 mr-2 py-2 rounded-md border border-black bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200"
           >
             Download
-          </button>
+          </a>
           <button
             id="copyButton"
             className="px-4 py-2 rounded-md border border-black bg-white text-black text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200"
