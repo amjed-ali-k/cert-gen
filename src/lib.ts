@@ -5,6 +5,7 @@ import SVGtoPDF from "svg-to-pdfkit";
 import BlobStream from "blob-stream";
 import { sift, unique } from "radash";
 
+// TO convert google fonts to link visit: https://gist.github.com/cvan/21aefbfd786a146c0d93
 const savedfonts = [
   {
     url: "https://fonts.gstatic.com/s/pacifico/v22/FwZY7-Qmy14u9lezJ-6H6Mw.ttf",
@@ -30,6 +31,16 @@ const savedfonts = [
     url: "https://fonts.gstatic.com/s/lora/v35/0QI6MX1D_JOuGQbT0gvTJPa787z5vBJBkqg.ttf",
     font: "Lora:bold",
     weight: 700 as const,
+  },
+  {
+    url: "https://fonts.gstatic.com/s/rubik/v28/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4iFV0Uw.ttf",
+    font: "Rubik",
+    weight: 400 as const,
+  },
+  {
+    url: "https://fonts.gstatic.com/s/rubik/v28/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4iFV0Uw.ttf",
+    font: "Aubrey",
+    weight: 400 as const,
   },
 ];
 
@@ -87,7 +98,6 @@ export const genratePdfFromElement = async (
   );
   await generatePdfFromSVG(svg, width, height, callback);
 };
-
 
 const generatePdf = async (
   svg: any,
