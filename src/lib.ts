@@ -38,7 +38,7 @@ const savedfonts = [
     weight: 400 as const,
   },
   {
-    url: "https://fonts.gstatic.com/s/rubik/v28/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4iFV0Uw.ttf",
+    url: "https://fonts.gstatic.com/s/aubrey/v28/q5uGsou7NPBw-p7fvQlo.ttf",
     font: "Aubrey",
     weight: 400 as const,
   },
