@@ -79,6 +79,12 @@ const app = new Hono<{
       </Layout>
     );
   })
+  .get("/cert/:certId/image.png", async (c) => {
+    return c.redirect(`https://cert-image.amjedmgm.workers.dev/cert/${c.req.param("certId")}/image.png`, 301)
+  })
+  .get("/cert/:certId/image.svg", async (c) => {
+    return c.redirect(`https://cert-image.amjedmgm.workers.dev/cert/${c.req.param("certId")}/image.svg`, 301)
+  })
   .put("/generate-cert", zodValidator(inputSchema), async (c) => {
     const { data } = c.req.valid("json");
 
