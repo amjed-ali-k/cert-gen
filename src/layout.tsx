@@ -65,28 +65,13 @@ export const Layout: FC = ({ children, reciptent, issuedFor, id }) => {
         />
         <meta name="twitter:site" content="@gptcperinthalmanna" />
 
-        {/* 
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/staticx/udemy/images/v7/apple-touch-icon.png"
-        />
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/logo.png" />
         <link
           rel="icon"
           type="image/png"
-          sizes="32x32"
-          href="/staticx/udemy/images/v8/favicon-32x32.png"
+          sizes="128x128"
+          href="/static/logo.png"
         />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/staticx/udemy/images/v8/favicon-16x16.png"
-        />
-        <link
-          rel="manifest"
-          href="/staticx/udemy/images/v7/site-manifest.json"
-        /> */}
         <meta name="application-name" content="Cert Viewer" />
 
         <meta name="theme-color" content="#ffffff" />
