@@ -66,7 +66,7 @@ const app = new Hono<{
       .get();
     if (!cert) return c.text("Certificate not found", 404);
     return c.render(
-      <Layout>
+      <Layout id={cert.id} reciptent={cert.reciptent} issuedFor={cert.issuedFor}>
         <div class="grid grid-cols-4 flex-1 !h-full">
           <CertificateViewer id={cert.id} />
           <Info

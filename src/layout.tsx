@@ -1,6 +1,6 @@
 import { FC } from "hono/jsx";
 
-export const Layout: FC = ({ children, reciptent, issuedFor }) => {
+export const Layout: FC = ({ children, reciptent, issuedFor, id }) => {
   return (
     <>
       <head>
@@ -27,19 +27,21 @@ export const Layout: FC = ({ children, reciptent, issuedFor }) => {
         <meta property="og:title" content="Certificate" />
         <meta
           property="og:url"
-          content="https://www.udemy.com/certificate/UC-3aa9d27c-d46a-4fac-9780-745a1265f19e/"
+          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.png`}
         />
         <meta
           property="og:description"
-          content={`Certificate issued to ${reciptent} for ${issuedFor}`}
+          content={`Certificate issued to ${reciptent}  ${
+            issuedFor ? `for ${issuedFor}` : ""
+          }`}
         />
         <meta
           property="og:image"
-          content="https://udemy-certificate.s3.amazonaws.com/image/UC-3aa9d27c-d46a-4fac-9780-745a1265f19e.jpg"
+          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.png`}
         />
         <meta
           property="og:image:secure_url"
-          content="https://udemy-certificate.s3.amazonaws.com/image/UC-3aa9d27c-d46a-4fac-9780-745a1265f19e.jpg"
+          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.png`}
         />
         <meta property="og:type" content="video_lecture" />
         <meta property="og:site_name" content="GPTC Perinthalmanna" />
@@ -51,7 +53,7 @@ export const Layout: FC = ({ children, reciptent, issuedFor }) => {
         />
         <meta
           name="twitter:url"
-          content="https://www.udemy.com/certificate/UC-3aa9d27c-d46a-4fac-9780-745a1265f19e/"
+          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.png`}
         />
         <meta
           name="twitter:description"
@@ -59,10 +61,9 @@ export const Layout: FC = ({ children, reciptent, issuedFor }) => {
         />
         <meta
           name="twitter:image"
-          content="https://udemy-certificate.s3.amazonaws.com/image/UC-3aa9d27c-d46a-4fac-9780-745a1265f19e.jpg"
+          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.png`}
         />
         <meta name="twitter:site" content="@gptcperinthalmanna" />
-
 
         {/* 
         <link

@@ -42,6 +42,16 @@ const savedfonts = [
     font: "Aubrey",
     weight: 400 as const,
   },
+  {
+    url: "https://fonts.gstatic.com/s/raleway/v34/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVvaorCIPrQ.ttf",
+    font: "Raleway",
+    weight: 400 as const,
+  },
+  {
+    url: "https://fonts.gstatic.com/s/raleway/v34/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVs9pbCIPrQ.ttf",
+    font: "Raleway:bold",
+    weight: 700 as const,
+  },
 ];
 
 export const generateSVGFromElement = async (
