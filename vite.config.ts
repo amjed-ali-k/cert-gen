@@ -12,10 +12,5 @@ export default defineConfig(({ mode }) => {
         entry: "src/index.tsx",
       }),
     ],
-    build: {
-      rollupOptions: {
-        // external: ['wbg'], // Add 'wbg' to the external list
-      },
-    },
   };
 });

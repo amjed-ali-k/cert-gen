@@ -13,8 +13,6 @@
     "styles": "tailwindcss -i ./src/style.css -o ./public/static/style.css --watch"
   },
   "dependencies": {
-    "@cf-wasm/resvg": "^0.1.24",
-    "@resvg/resvg-wasm": "^2.6.2",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.38.2",
@@ -25,8 +23,6 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "radash": "^12.1.0",
-    "satori": "^0.12.1",
-    "svg2img": "^1.0.0-beta.2",
     "uuid": "^11.0.3",
     "zod": "^3.24.1"
   },
@@ -41,8 +37,6 @@
     "tailwindcss": "^3.4.16",
     "tsx": "^4.19.2",
     "vite": "^5.2.12",
-    "vite-plugin-top-level-await": "^1.5.0",
-    "vite-plugin-wasm": "^3.4.1",
     "wrangler": "^3.57.2"
   }
 }

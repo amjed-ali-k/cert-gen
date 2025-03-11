@@ -3,12 +3,10 @@ import { renderer } from "./renderer";
 import { Layout } from "./layout";
 import { Info } from "./compontents/info";
 import { CertificateViewer } from "./compontents/certificateViewer";
-import { generateSVGFromElement } from "./lib";
-import { SampleCert } from "./compontents/sample-cert";
 import { createDb } from "./db";
 import { z } from "zod";
 import { jwtDecode, zodValidator } from "./lib/validators";
-import { CertificateElements, certificatesTable } from "./db/schema";
+import { certificatesTable } from "./db/schema";
 import { v7 as uuid } from "uuid";
 import { eq } from "drizzle-orm";
 import { format } from "date-fns/format";
@@ -81,37 +79,6 @@ const app = new Hono<{
       </Layout>
     );
   })
-  .get("/cert/:certId/image.svg", async (c) => {
-    const certId = c.req.param("certId");
-    const bg = c.req.query("bg") === "false" ? false : true;
-    const db = c.get("db");
-    const cert = await db
-      .select()
-      .from(certificatesTable)
-      .where(eq(certificatesTable.id, certId))
-      .get();
-    if (!cert) return c.text("Certificate not found", 404);
-    const v = await generateSVGFromElement(
-      (
-        <SampleCert
-          height={cert.height}
-          width={cert.width}
-          image={bg ? cert.certificateBackground : undefined}
-          items={JSON.parse(cert.certificateElements) as CertificateElements}
-        />
-      ) as any,
-      cert.fonts ? (JSON.parse(cert.fonts) as string[]) : ["Roboto Condensed"],
-      cert.width,
-      cert.height
-    );
-    c.res.headers.set("Content-Type", "image/svg+xml");
-    return new Response(v, {
-      headers: {
-        "Content-Type": "image/svg+xml; charset=utf-8",
-      },
-    });
-  })
- 
   .put("/generate-cert", zodValidator(inputSchema), async (c) => {
     const { data } = c.req.valid("json");
 
