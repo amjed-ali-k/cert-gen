@@ -1,8 +1,5 @@
 import { ReactNode } from "hono/jsx";
 import satori from "satori";
-import PDFDocument from "pdfkit";
-import SVGtoPDF from "svg-to-pdfkit";
-import BlobStream from "blob-stream";
 import { sift, unique } from "radash";
 
 // TO convert google fonts to link visit: https://gist.github.com/cvan/21aefbfd786a146c0d93
@@ -81,70 +78,4 @@ export const generateSVGFromElement = async (
     fonts: fontData,
   });
   return svg;
-};
-
-export const generatePdfFromSVG = (
-  svg: string,
-  width: number,
-  height: number,
-  callBack: (e: string) => void
-) => {
-  return generatePdf(svg, width, height, callBack);
-};
-
-// let geistBold: ArrayBuffer | null = null;
-
-export const genratePdfFromElement = async (
-  elm: ReactNode,
-  callback: (e: string) => void,
-  height: number,
-  width: number
-) => {
-  const svg = await generateSVGFromElement(
-    elm,
-    ["Pacifico", "Roboto Condensed", "Borel"],
-    width,
-    height
-  );
-  await generatePdfFromSVG(svg, width, height, callback);
-};
-
-const generatePdf = async (
-  svg: any,
-  width: any,
-  height: any,
-  callBack: any
-) => {
-  const doc = new PDFDocument({
-    compress: false,
-    size: "A4",
-  });
-
-  // is svg is array, then loop through it and add to pdf as separate pages
-  if (Array.isArray(svg)) {
-    svg.forEach((s, i) => {
-      if (i > 0) {
-        doc.addPage();
-      }
-      SVGtoPDF(doc, s, 0, 0, {
-        width,
-        height,
-        preserveAspectRatio: "xMidYMid meet",
-      });
-    });
-  } else {
-    SVGtoPDF(doc, svg, 0, 0, {
-      width,
-      height,
-      preserveAspectRatio: "xMidYMid meet",
-    });
-  }
-
-  const stream = doc.pipe(BlobStream());
-  stream.on("finish", () => {
-    const blob = stream.toBlob("application/pdf");
-    const url = URL.createObjectURL(blob);
-    callBack(url);
-  });
-  doc.end();
 };

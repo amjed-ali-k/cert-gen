@@ -27,7 +27,7 @@ export const Layout: FC = ({ children, reciptent, issuedFor, id }) => {
         <meta property="og:title" content="Certificate" />
         <meta
           property="og:url"
-          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.png`}
+          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.svg`}
         />
         <meta
           property="og:description"
@@ -37,11 +37,11 @@ export const Layout: FC = ({ children, reciptent, issuedFor, id }) => {
         />
         <meta
           property="og:image"
-          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.png`}
+          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.svg`}
         />
         <meta
           property="og:image:secure_url"
-          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.png`}
+          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.svg`}
         />
         <meta property="og:type" content="video_lecture" />
         <meta property="og:site_name" content="GPTC Perinthalmanna" />
@@ -53,7 +53,7 @@ export const Layout: FC = ({ children, reciptent, issuedFor, id }) => {
         />
         <meta
           name="twitter:url"
-          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.png`}
+          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.svg`}
         />
         <meta
           name="twitter:description"
@@ -61,7 +61,7 @@ export const Layout: FC = ({ children, reciptent, issuedFor, id }) => {
         />
         <meta
           name="twitter:image"
-          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.png`}
+          content={`https://certificates.gptcperinthalmanna.in/cert/${id}.image.svg`}
         />
         <meta name="twitter:site" content="@gptcperinthalmanna" />
 

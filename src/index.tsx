@@ -13,7 +13,7 @@ import { v7 as uuid } from "uuid";
 import { eq } from "drizzle-orm";
 import { format } from "date-fns/format";
 import { cors } from 'hono/cors'
-import { Resvg } from '@resvg/resvg-js';
+
 
 type Bindings = {
   DB: D1Database;
@@ -111,48 +111,7 @@ const app = new Hono<{
       },
     });
   })
-  .get("/cert/:certId/image.png", async (c) => {
-    const certId = c.req.param("certId");
-    const bg = c.req.query("bg") === "false" ? false : true;
-    const db = c.get("db");
-    const cert = await db
-      .select()
-      .from(certificatesTable)
-      .where(eq(certificatesTable.id, certId))
-      .get();
-    if (!cert) return c.text("Certificate not found", 404);
-    const v = await generateSVGFromElement(
-      (
-        <SampleCert
-          height={cert.height}
-          width={cert.width}
-          image={bg ? cert.certificateBackground : undefined}
-          items={JSON.parse(cert.certificateElements) as CertificateElements}
-        />
-      ) as any,
-      cert.fonts ? (JSON.parse(cert.fonts) as string[]) : ["Roboto Condensed"],
-      cert.width,
-      cert.height
-    );
-
-    try {
-      // Convert SVG string to PNG using Resvg
-      const resvg = new Resvg(v);
-      const pngData = resvg.render();
-      const pngBuffer = pngData.asPng();
-  
-      // Return the PNG as a response
-      return new Response(pngBuffer, {
-        headers: {
-          'Content-Type': 'image/png',
-          'Cache-Control': 'public, max-age=604800', // Optional caching
-        },
-      });
-    } catch (error) {
-      console.error('Error converting SVG to PNG:', error);
-      return c.text('Error generating PNG', 500);
-    }
-  })
+ 
   .put("/generate-cert", zodValidator(inputSchema), async (c) => {
     const { data } = c.req.valid("json");
 
