@@ -14,7 +14,7 @@ export const Info = ({
   issuerDescription?: string | null;
 }) => {
   return (
-    <div class="p-4 border-l h-full">
+    <div class="p-4 border-l h-full col-span-4 md:col-span-1">
       <div>
         <h4 class="text-lg font-bold">Certificate Details</h4>
         <div>

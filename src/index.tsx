@@ -12,7 +12,6 @@ import { eq } from "drizzle-orm";
 import { format } from "date-fns/format";
 import { cors } from 'hono/cors'
 
-
 type Bindings = {
   DB: D1Database;
   CERT_KEY: string;
@@ -87,7 +86,6 @@ const app = new Hono<{
   })
   .put("/generate-cert", zodValidator(inputSchema), async (c) => {
     const { data } = c.req.valid("json");
-
     const key = c.env.CERT_KEY;
     const values = jwtDecode(data, key ?? "my-super-secret-key");
     if (!values) c.json({ message: "Invalid token" }, 400);
@@ -110,39 +108,6 @@ const app = new Hono<{
     );
     return c.json({ message: "Certificate generated", id: cert.id }, 200);
   })
-  .get("/new", async (c) => {
-    const db = c.get("db");
-    return c.json(
-      await db
-        .insert(certificatesTable)
-        .values({
-          id: uuid(),
-          reciptent: "Fathima Nusrath Jahan",
-          reciptentDescription: "Electronics Engineering",
-          issuer: "Jane Doe",
-          issuerDescription: "Sports counciler",
-          issuedAt: Date.now(),
-          issuedFor: "Outstanding Performance",
-          issuedForDescription: "-",
-          certificateElements: JSON.stringify([
-            {
-              text: "Fathima Nusrath Jahan",
-              styles: {
-                position: "absolute",
-                fontSize: 32,
-                top: 200,
-              },
-            },
-          ]),
-          certificateBackground:
-            "https://i.ibb.co/1Qbs2NM/certificate-sample.png",
-          height: 424,
-          width: 600,
-          fonts: JSON.stringify(["Roboto Condensed"]),
-        })
-        .returning()
-        .get()
-    );
-  });
+
 
 export default app;
